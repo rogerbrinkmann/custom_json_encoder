@@ -3,9 +3,8 @@ from json.encoder import JSONEncoder
 
 
 class CustomJSONEncoder(JSONEncoder):
-    def recursive_dict_encoder(self, dict_obj, jsonstr = "", indentationstr = ""):
+    def recursive_dict_encoder(self, dict_obj, jsonstr="", indentationstr=""):
         endl = "\n" if self.indent else ""
-
         opening = "{" + endl
         closing = endl + indentationstr + "}"
 
@@ -17,7 +16,7 @@ class CustomJSONEncoder(JSONEncoder):
             if isinstance(value, dict):
                 parts.append(JSONEncoder.encode(self, str(key)) + self.key_separator + self.recursive_dict_encoder(value, jsonstr, indentationstr))
             elif isinstance(value, list):
-                parts.append(JSONEncoder.encode(self, str(key)) + self.key_separator + JSONEncoder.encode(self, str(value)))
+                parts.append(JSONEncoder.encode(self, str(key)) + self.key_separator + str(value))
             else:
                 parts.append(JSONEncoder.encode(self, str(key)) + self.key_separator + JSONEncoder.encode(self, value))
 
@@ -36,5 +35,4 @@ class CustomJSONEncoder(JSONEncoder):
             return jsonstr
         elif isinstance(obj, list):
             return str(obj)
-
         return JSONEncoder.encode(self, obj)
